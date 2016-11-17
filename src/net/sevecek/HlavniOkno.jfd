@@ -1,0 +1,71 @@
+JFDML JFormDesigner: "5.2.4.0.321" Java: "1.8.0_112-release" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class java.awt.BorderLayout ) ) {
+			name: "this"
+			"defaultCloseOperation": 2
+			"title": "Moje nová aplikace"
+			"$locationPolicy": 1
+			"$sizePolicy": 1
+			addEvent( new FormEvent( "java.awt.event.WindowListener", "windowOpened", "priOtevreniOkna", true ) )
+			addEvent( new FormEvent( "java.awt.event.WindowListener", "windowClosed", "priZavreniOkna", true ) )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) ) {
+				name: "contentPane"
+				"background": new java.awt.Color( 255, 255, 255, 255 )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "labBalon"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/net/sevecek/balonek.jpg" )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"x": 185
+					"y": 125
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "labOdrazka1"
+					"background": &Color0 new java.awt.Color( 0, 102, 204, 255 )
+					"opaque": true
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"x": 5
+					"y": 80
+					"height": 185
+					"width": 15
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "labOdrazka2"
+					"background": #Color0
+					"opaque": true
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 15
+					"height": 185
+					"x": 785
+					"y": 65
+				} )
+				add( new FormComponent( "net.sevecek.util.swing.JKeyboard" ) {
+					name: "klavesnice"
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"x": 20
+					"y": 15
+				} )
+			}, new FormLayoutConstraints( class java.lang.String ) {
+				"value": "Center"
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 0 )
+			"size": new java.awt.Dimension( 815, 535 )
+		} )
+		add( new FormNonVisual( "java.util.Random" ) {
+			name: "random1"
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 1340, 15 )
+		} )
+		add( new FormNonVisual( "net.sevecek.util.swing.JTimer" ) {
+			name: "casovac"
+			"delay": 25
+			"initialDelay": 25
+			addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "priTiknitiCasovace", true ) )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 1370, 105 )
+		} )
+	}
+}
