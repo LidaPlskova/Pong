@@ -26,8 +26,8 @@ new FormModel {
 					"background": &Color0 new java.awt.Color( 0, 102, 204, 255 )
 					"opaque": true
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-					"x": 5
-					"y": 80
+					"x": 0
+					"y": 85
 					"height": 185
 					"width": 15
 				} )
@@ -38,7 +38,7 @@ new FormModel {
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 					"width": 15
 					"height": 185
-					"x": 785
+					"x": 790
 					"y": 65
 				} )
 				add( new FormComponent( "net.sevecek.util.swing.JKeyboard" ) {
@@ -46,6 +46,14 @@ new FormModel {
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 					"x": 20
 					"y": 15
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "labKonecHry"
+					"text": "Konec hry!!!\nPro novou hru stiskněte \"r\"."
+					"visible": false
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"x": 290
+					"y": 315
 				} )
 			}, new FormLayoutConstraints( class java.lang.String ) {
 				"value": "Center"
@@ -61,8 +69,8 @@ new FormModel {
 		} )
 		add( new FormNonVisual( "net.sevecek.util.swing.JTimer" ) {
 			name: "casovac"
-			"delay": 25
-			"initialDelay": 25
+			"delay": 15
+			"initialDelay": 5
 			addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "priTiknitiCasovace", true ) )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 1370, 105 )

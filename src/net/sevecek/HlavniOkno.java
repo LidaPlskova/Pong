@@ -15,11 +15,25 @@ public class HlavniOkno extends JFrame {
     JLabel labOdrazka1;
     JLabel labOdrazka2;
     JKeyboard klavesnice;
+    JLabel labKonecHry;
     Random random1;
     JTimer casovac;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
     Integer posunX;
     Integer posunY;
+    Integer AX;
+    Integer AY;
+    Integer BX;
+    Integer BY;
+    Integer CX;
+    Integer CY;
+    Integer DX;
+    Integer DY;
+    Integer xBalon;
+    Integer yBalon;
+    Integer x2Balon;
+    Integer y2Balon;
+    ;
 
 
     public HlavniOkno() {
@@ -49,11 +63,25 @@ public class HlavniOkno extends JFrame {
         xBalon = poziceBalon.x;
         yBalon = poziceBalon.y;
 
-        if (xBalon < 5 + labOdrazka1.getWidth()) {
+//        if (xBalon < 0 ||xBalon + balonSirka > contentPane.getWidth()) {
+//            konecHry;
+//        }
+        // private void konecHry (){
+        // casovac.stop();
+        // labKonecHry.setVisible(true);}
+//
+        Point poziceOdrazka1;
+        poziceOdrazka1 = labOdrazka1.getLocation();
+        AX = labOdrazka1.x;
+        AY = labOdrazka1.y;
+
+        if (BX> this.xBalon && BX<2xBalon && BY> this.yBalon && BY<y2Balon){
             posunX = 5;
+            posunY = -5;
         }
-        if (xBalon + balonSirka > labOdrazka2.getWidth()) {
-            posunX = -5;
+        if (AX<2xBalon && AX> this.xBalon && AY<y2Balon && AY> this.yBalon){
+            posunX = 5;
+            posunY = 5;
         }
         if (yBalon < 0) {
             posunY = 5;
@@ -79,6 +107,7 @@ public class HlavniOkno extends JFrame {
         labOdrazka1 = new JLabel();
         labOdrazka2 = new JLabel();
         klavesnice = new JKeyboard();
+        labKonecHry = new JLabel();
         random1 = new Random();
         casovac = new JTimer();
 
@@ -112,15 +141,21 @@ public class HlavniOkno extends JFrame {
             labOdrazka1.setBackground(new Color(0, 102, 204));
             labOdrazka1.setOpaque(true);
             contentPane.add(labOdrazka1);
-            labOdrazka1.setBounds(5, 80, 15, 185);
+            labOdrazka1.setBounds(0, 85, 15, 185);
 
             //---- labOdrazka2 ----
             labOdrazka2.setBackground(new Color(0, 102, 204));
             labOdrazka2.setOpaque(true);
             contentPane.add(labOdrazka2);
-            labOdrazka2.setBounds(785, 65, 15, 185);
+            labOdrazka2.setBounds(790, 65, 15, 185);
             contentPane.add(klavesnice);
             klavesnice.setBounds(new Rectangle(new Point(20, 15), klavesnice.getPreferredSize()));
+
+            //---- labKonecHry ----
+            labKonecHry.setText("Konec hry!!!\nPro novou hru stiskn\u011bte \"r\".");
+            labKonecHry.setVisible(false);
+            contentPane.add(labKonecHry);
+            labKonecHry.setBounds(new Rectangle(new Point(290, 315), labKonecHry.getPreferredSize()));
 
             { // compute preferred size
                 Dimension preferredSize = new Dimension();
@@ -141,8 +176,8 @@ public class HlavniOkno extends JFrame {
         setLocationRelativeTo(null);
 
         //---- casovac ----
-        casovac.setDelay(25);
-        casovac.setInitialDelay(25);
+        casovac.setDelay(15);
+        casovac.setInitialDelay(5);
         casovac.addActionListener(e -> priTiknitiCasovace(e));
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
