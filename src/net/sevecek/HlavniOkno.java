@@ -33,7 +33,9 @@ public class HlavniOkno extends JFrame {
     Integer yBalon;
     Integer x2Balon;
     Integer y2Balon;
-    ;
+    private void konecHry (){
+        casovac.stop();
+        labKonecHry.setVisible(true);}
 
     public HlavniOkno() {
         initComponents();
@@ -62,13 +64,7 @@ public class HlavniOkno extends JFrame {
         x2Balon = xBalon + balonSirka;
         y2Balon = yBalon + balonVyska;
 
-//        if (xBalon <= 0 ||xBalon + balonSirka >= contentPane.getWidth()) {
-//            konecHry;
-//        }
-        // private void konecHry (){
-        // casovac.stop();
-        // labKonecHry.setVisible(true);}
-//
+
         Point poziceOdrazka1;
         poziceOdrazka1 = labOdrazka1.getLocation();
         AX = poziceOdrazka1.x;
@@ -85,8 +81,6 @@ public class HlavniOkno extends JFrame {
             posunY = 5;
         }
 
-        AX = AX + posunX;
-        AY = AY + posunY;
 
         poziceOdrazka1.x = AX;
         poziceOdrazka1.y = AY;
@@ -107,8 +101,7 @@ public class HlavniOkno extends JFrame {
             posunX = -5;
             posunY = -5;
         }
-        CX = CX + posunX;
-        CY = CY + posunY;
+
         poziceOdrazka2.x = CX;
         poziceOdrazka2.y = CY;
 
@@ -127,6 +120,12 @@ public class HlavniOkno extends JFrame {
         poziceBalon.y = yBalon;
 
         labBalon.setLocation(poziceBalon);
+
+        if (xBalon <= 0 ||xBalon + balonSirka >= contentPane.getWidth()) {
+            konecHry();
+        }
+
+
 
     }
 
