@@ -35,7 +35,6 @@ public class HlavniOkno extends JFrame {
     Integer y2Balon;
     ;
 
-
     public HlavniOkno() {
         initComponents();
     }
@@ -53,8 +52,6 @@ public class HlavniOkno extends JFrame {
     private void priTiknitiCasovace(ActionEvent e) {
 
         Point poziceBalon;
-        Integer xBalon;
-        Integer yBalon;
         Integer balonSirka;
         balonSirka = labBalon.getWidth();
         Integer balonVyska;
@@ -62,8 +59,10 @@ public class HlavniOkno extends JFrame {
         poziceBalon = labBalon.getLocation();
         xBalon = poziceBalon.x;
         yBalon = poziceBalon.y;
+        x2Balon = xBalon + balonSirka;
+        y2Balon = yBalon + balonVyska;
 
-//        if (xBalon < 0 ||xBalon + balonSirka > contentPane.getWidth()) {
+//        if (xBalon <= 0 ||xBalon + balonSirka >= contentPane.getWidth()) {
 //            konecHry;
 //        }
         // private void konecHry (){
@@ -72,24 +71,55 @@ public class HlavniOkno extends JFrame {
 //
         Point poziceOdrazka1;
         poziceOdrazka1 = labOdrazka1.getLocation();
-        AX = labOdrazka1.x;
-        AY = labOdrazka1.y;
+        AX = poziceOdrazka1.x;
+        AY = poziceOdrazka1.y;
+        BX = AX + labOdrazka1.getWidth();
+        BY = BX + labOdrazka1.getHeight();
 
-        if (BX> this.xBalon && BX<2xBalon && BY> this.yBalon && BY<y2Balon){
+        if (BX >= this.xBalon && BX <= x2Balon && BY >= this.yBalon && BY <= y2Balon) {
             posunX = 5;
             posunY = -5;
         }
-        if (AX<2xBalon && AX> this.xBalon && AY<y2Balon && AY> this.yBalon){
+        if (AX <= x2Balon && AX >= this.xBalon && AY <= y2Balon && AY >= this.yBalon) {
             posunX = 5;
             posunY = 5;
         }
+
+        AX = AX + posunX;
+        AY = AY + posunY;
+
+        poziceOdrazka1.x = AX;
+        poziceOdrazka1.y = AY;
+        labOdrazka1.setLocation(poziceOdrazka1);
+
+        Point poziceOdrazka2;
+        poziceOdrazka2 = labOdrazka2.getLocation();
+        CX = poziceOdrazka2.x;
+        CY = poziceOdrazka2.y;
+        DX = CX + labOdrazka2.getWidth();
+        DY = CY + labOdrazka2.getHeight();
+
+        if (CX <= x2Balon && CX >= xBalon && CY <= y2Balon && CY >= yBalon) {
+            posunX = -5;
+            posunY = 5;
+        }
+        if (DX >= xBalon && DX <= x2Balon && DY >= yBalon && DY <= y2Balon) {
+            posunX = -5;
+            posunY = -5;
+        }
+        CX = CX + posunX;
+        CY = CY + posunY;
+        poziceOdrazka2.x = CX;
+        poziceOdrazka2.y = CY;
+
+        labOdrazka2.setLocation(poziceOdrazka2);
+
         if (yBalon < 0) {
             posunY = 5;
         }
         if (yBalon + balonVyska > contentPane.getHeight()) {
             posunY = -5;
         }
-
         xBalon = xBalon + posunX;
         yBalon = yBalon + posunY;
 
@@ -97,6 +127,7 @@ public class HlavniOkno extends JFrame {
         poziceBalon.y = yBalon;
 
         labBalon.setLocation(poziceBalon);
+
     }
 
     private void initComponents() {
@@ -119,6 +150,7 @@ public class HlavniOkno extends JFrame {
             public void windowClosed(WindowEvent e) {
                 priZavreniOkna(e);
             }
+
             @Override
             public void windowOpened(WindowEvent e) {
                 priOtevreniOkna(e);
@@ -159,7 +191,7 @@ public class HlavniOkno extends JFrame {
 
             { // compute preferred size
                 Dimension preferredSize = new Dimension();
-                for(int i = 0; i < contentPane.getComponentCount(); i++) {
+                for (int i = 0; i < contentPane.getComponentCount(); i++) {
                     Rectangle bounds = contentPane.getComponent(i).getBounds();
                     preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
                     preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
