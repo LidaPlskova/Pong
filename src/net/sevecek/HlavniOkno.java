@@ -33,9 +33,12 @@ public class HlavniOkno extends JFrame {
     Integer yBalon;
     Integer x2Balon;
     Integer y2Balon;
-    private void konecHry (){
+
+    private void konecHry() {
         casovac.stop();
-        labKonecHry.setVisible(true);}
+        labKonecHry.setVisible(true);
+
+    }
 
     public HlavniOkno() {
         initComponents();
@@ -64,23 +67,30 @@ public class HlavniOkno extends JFrame {
         x2Balon = xBalon + balonSirka;
         y2Balon = yBalon + balonVyska;
 
-
         Point poziceOdrazka1;
         poziceOdrazka1 = labOdrazka1.getLocation();
         AX = poziceOdrazka1.x;
         AY = poziceOdrazka1.y;
         BX = AX + labOdrazka1.getWidth();
         BY = BX + labOdrazka1.getHeight();
-
-        if (BX >= this.xBalon && BX <= x2Balon && BY >= this.yBalon && BY <= y2Balon) {
+        if (klavesnice.isKeyDown(KeyEvent.VK_W)){
+            if (AY>0){
+                AY = AY-5;
+            }
+        }
+        if (klavesnice.isKeyDown(KeyEvent.VK_S)){
+            if (BY < contentPane.getHeight()){
+                AY = AY +5;
+            }
+        }
+        if (BX >= this.xBalon && BY >= this.yBalon && BY <= y2Balon) {
             posunX = 5;
             posunY = -5;
         }
-        if (AX <= x2Balon && AX >= this.xBalon && AY <= y2Balon && AY >= this.yBalon) {
+        if (BX >= this.xBalon && AY <= y2Balon && AY >= this.yBalon) {
             posunX = 5;
             posunY = 5;
         }
-
 
         poziceOdrazka1.x = AX;
         poziceOdrazka1.y = AY;
@@ -92,12 +102,22 @@ public class HlavniOkno extends JFrame {
         CY = poziceOdrazka2.y;
         DX = CX + labOdrazka2.getWidth();
         DY = CY + labOdrazka2.getHeight();
+        if (klavesnice.isKeyDown(KeyEvent.VK_UP)){
+            if (CY >0){
+                CY = CY-5;
+            }
+        }
+        if (klavesnice.isKeyDown(KeyEvent.VK_DOWN)) {
+            if (DY < contentPane.getHeight()){
+                CY = CY +5;
+            }
+        }
 
-        if (CX <= x2Balon && CX >= xBalon && CY <= y2Balon && CY >= yBalon) {
+        if (CX <= x2Balon && CY <= y2Balon && CY >= yBalon) {
             posunX = -5;
             posunY = 5;
         }
-        if (DX >= xBalon && DX <= x2Balon && DY >= yBalon && DY <= y2Balon) {
+        if (CX <= x2Balon && DY >= yBalon && DY <= y2Balon) {
             posunX = -5;
             posunY = -5;
         }
@@ -121,12 +141,18 @@ public class HlavniOkno extends JFrame {
 
         labBalon.setLocation(poziceBalon);
 
-        if (xBalon <= 0 ||xBalon + balonSirka >= contentPane.getWidth()) {
+        if (xBalon <= 0 || xBalon + balonSirka >= contentPane.getWidth()) {
             konecHry();
         }
 
+    }
 
-
+    private void priStiskuKlavesy(KeyEvent e) {
+        if (klavesnice.isKeyDown(KeyEvent.VK_R)) {
+            labBalon.setLocation(375, 200);
+            labKonecHry.setVisible(false);
+            casovac.start();
+        }
     }
 
     private void initComponents() {
@@ -149,7 +175,6 @@ public class HlavniOkno extends JFrame {
             public void windowClosed(WindowEvent e) {
                 priZavreniOkna(e);
             }
-
             @Override
             public void windowOpened(WindowEvent e) {
                 priOtevreniOkna(e);
@@ -166,7 +191,7 @@ public class HlavniOkno extends JFrame {
             //---- labBalon ----
             labBalon.setIcon(new ImageIcon(getClass().getResource("/net/sevecek/balonek.jpg")));
             contentPane.add(labBalon);
-            labBalon.setBounds(new Rectangle(new Point(185, 125), labBalon.getPreferredSize()));
+            labBalon.setBounds(new Rectangle(new Point(375, 200), labBalon.getPreferredSize()));
 
             //---- labOdrazka1 ----
             labOdrazka1.setBackground(new Color(0, 102, 204));
@@ -179,6 +204,14 @@ public class HlavniOkno extends JFrame {
             labOdrazka2.setOpaque(true);
             contentPane.add(labOdrazka2);
             labOdrazka2.setBounds(790, 65, 15, 185);
+
+            //---- klavesnice ----
+            klavesnice.addKeyListener(new KeyAdapter() {
+                @Override
+                public void keyPressed(KeyEvent e) {
+                    priStiskuKlavesy(e);
+                }
+            });
             contentPane.add(klavesnice);
             klavesnice.setBounds(new Rectangle(new Point(20, 15), klavesnice.getPreferredSize()));
 
@@ -190,7 +223,7 @@ public class HlavniOkno extends JFrame {
 
             { // compute preferred size
                 Dimension preferredSize = new Dimension();
-                for (int i = 0; i < contentPane.getComponentCount(); i++) {
+                for(int i = 0; i < contentPane.getComponentCount(); i++) {
                     Rectangle bounds = contentPane.getComponent(i).getBounds();
                     preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
                     preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
