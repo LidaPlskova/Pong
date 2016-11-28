@@ -16,6 +16,8 @@ public class HlavniOkno extends JFrame {
     JKeyboard klavesnice;
     JLabel labKonecHry;
     JLabel labOdrazka2;
+    JLabel labPocitadlo1;
+    JLabel labPocitadlo2;
     Random random1;
     JTimer casovac;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
@@ -41,21 +43,24 @@ public class HlavniOkno extends JFrame {
         pohybujOdrazka1();
         pohybujOdrazka2();
         if (detekujKolizi(labBalon, labOdrazka1) == true) {
-            odrazOdrazku1 ();
+            odrazOdrazku1();
         }
-        if (detekujKolizi(labBalon, labOdrazka2)== true){
-            odrazOdrazku2();       }
+        if (detekujKolizi(labBalon, labOdrazka2) == true) {
+            odrazOdrazku2();
+        }
+        dejGol1();
+        dejGol2();
         ukonciHru();
     }
 
     private void priStiskuKlavesy(KeyEvent e) {
         if (klavesnice.isKeyDown(KeyEvent.VK_R)) {
             labBalon.setLocation(375, 200);
+            vynulujSkore();
             labKonecHry.setVisible(false);
             casovac.start();
         }
     }
-
 
     private boolean detekujKolizi(JLabel label1, JLabel label2) {
         Integer ax = label1.getX();
@@ -77,11 +82,12 @@ public class HlavniOkno extends JFrame {
     }
 
     private void ukonciHru() {
-        Point poziceBalon;
-        poziceBalon = labBalon.getLocation();
-        Integer xBalon = poziceBalon.x;
-        Integer yBalon = poziceBalon.y;
-        if (xBalon <= 0 || xBalon + labBalon.getWidth() >= contentPane.getWidth()) {
+        String skore1 = labPocitadlo1.getText();
+        Integer pocitadlo1 = new Integer(skore1);
+
+        String skore2 = labPocitadlo2.getText();
+        Integer pocitadlo2 = new Integer(skore2);
+        if (pocitadlo1 == 10 || pocitadlo2 == 10) {
 
             casovac.stop();
             labKonecHry.setVisible(true);
@@ -158,7 +164,8 @@ public class HlavniOkno extends JFrame {
 
         labOdrazka2.setLocation(poziceOdrazka2);
     }
-    private void odrazOdrazku1(){
+
+    private void odrazOdrazku1() {
         Point poziceBalonu = labBalon.getLocation();
         Integer balonX = poziceBalonu.x;
         Integer balonY = poziceBalonu.y;
@@ -166,14 +173,63 @@ public class HlavniOkno extends JFrame {
         balonX = balonX + posunX;
         labBalon.setLocation(poziceBalonu);
     }
-    private void odrazOdrazku2 (){
+
+    private void odrazOdrazku2() {
         Point poziceBalonu = labBalon.getLocation();
         Integer balonX = poziceBalonu.x;
         Integer balonY = poziceBalonu.y;
-        posunX = - 10;
+        posunX = -10;
         balonX = balonX + posunX;
 
         labBalon.setLocation(poziceBalonu);
+    }
+
+    private void dejGol1() {
+        Point poziceBalon;
+        poziceBalon = labBalon.getLocation();
+        Integer xBalon = poziceBalon.x;
+        Integer yBalon = poziceBalon.y;
+        if (xBalon <= 0) {
+            spocitejSkore1();
+        }
+    }
+
+    private void spocitejSkore1() {
+        String skore1 = labPocitadlo1.getText();
+        Integer pocitadlo1 = new Integer(skore1);
+        pocitadlo1 = pocitadlo1 + 1;
+        labPocitadlo1.setText(pocitadlo1.toString());
+
+    }
+
+    private void dejGol2() {
+        Point poziceBalon;
+        poziceBalon = labBalon.getLocation();
+        Integer xBalon = poziceBalon.x;
+        Integer yBalon = poziceBalon.y;
+        if (xBalon + labBalon.getWidth() >= contentPane.getWidth()) {
+            spocitejSkore2();
+        }
+    }
+
+    private void spocitejSkore2() {
+        String skore2 = labPocitadlo2.getText();
+        Integer pocitadlo2 = new Integer(skore2);
+        pocitadlo2 = pocitadlo2 + 1;
+        labPocitadlo2.setText(pocitadlo2.toString());
+
+    }
+
+    private void vynulujSkore() {
+        String skore1 = labPocitadlo1.getText();
+        Integer pocitadlo1 = new Integer(skore1);
+        pocitadlo1 = 0;
+        labPocitadlo1.setText(pocitadlo1.toString());
+
+        String skore2 = labPocitadlo2.getText();
+        Integer pocitadlo2 = new Integer(skore2);
+        pocitadlo2 = 0;
+        labPocitadlo2.setText(pocitadlo2.toString());
     }
 
     private void initComponents() {
@@ -185,6 +241,8 @@ public class HlavniOkno extends JFrame {
         klavesnice = new JKeyboard();
         labKonecHry = new JLabel();
         labOdrazka2 = new JLabel();
+        labPocitadlo1 = new JLabel();
+        labPocitadlo2 = new JLabel();
         random1 = new Random();
         casovac = new JTimer();
 
@@ -196,6 +254,7 @@ public class HlavniOkno extends JFrame {
             public void windowClosed(WindowEvent e) {
                 priZavreniOkna(e);
             }
+
             @Override
             public void windowOpened(WindowEvent e) {
                 priOtevreniOkna(e);
@@ -242,9 +301,21 @@ public class HlavniOkno extends JFrame {
             contentPane.add(labOdrazka2);
             labOdrazka2.setBounds(770, 200, 25, 185);
 
+            //---- labPocitadlo1 ----
+            labPocitadlo1.setText("0");
+            labPocitadlo1.setFont(new Font("HelveticaNeue-Regular", Font.BOLD, 20));
+            contentPane.add(labPocitadlo1);
+            labPocitadlo1.setBounds(195, 15, 40, 25);
+
+            //---- labPocitadlo2 ----
+            labPocitadlo2.setText("0");
+            labPocitadlo2.setFont(new Font("HelveticaNeue-Regular", Font.BOLD, 20));
+            contentPane.add(labPocitadlo2);
+            labPocitadlo2.setBounds(600, 15, 40, 30);
+
             { // compute preferred size
                 Dimension preferredSize = new Dimension();
-                for(int i = 0; i < contentPane.getComponentCount(); i++) {
+                for (int i = 0; i < contentPane.getComponentCount(); i++) {
                     Rectangle bounds = contentPane.getComponent(i).getBounds();
                     preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
                     preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
