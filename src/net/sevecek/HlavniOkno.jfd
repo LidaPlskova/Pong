@@ -63,14 +63,16 @@ new FormModel {
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 					"x": 195
 					"y": 15
+					"width": 40
+					"height": 25
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "labPocitadlo2"
 					"text": "0"
 					"font": #Font0
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-					"width": 13
-					"height": 25
+					"width": 40
+					"height": 30
 					"x": 600
 					"y": 15
 				} )
