@@ -26,20 +26,10 @@ new FormModel {
 					"background": &Color0 new java.awt.Color( 0, 102, 204, 255 )
 					"opaque": true
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-					"x": 0
+					"x": 15
 					"y": 85
 					"height": 185
-					"width": 15
-				} )
-				add( new FormComponent( "javax.swing.JLabel" ) {
-					name: "labOdrazka2"
-					"background": #Color0
-					"opaque": true
-				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-					"width": 15
-					"height": 185
-					"x": 790
-					"y": 65
+					"width": 25
 				} )
 				add( new FormComponent( "net.sevecek.util.swing.JKeyboard" ) {
 					name: "klavesnice"
@@ -55,6 +45,16 @@ new FormModel {
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 					"x": 290
 					"y": 315
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "labOdrazka2"
+					"background": #Color0
+					"opaque": true
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 25
+					"height": 185
+					"x": 770
+					"y": 200
 				} )
 			}, new FormLayoutConstraints( class java.lang.String ) {
 				"value": "Center"

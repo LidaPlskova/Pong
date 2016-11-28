@@ -13,32 +13,14 @@ public class HlavniOkno extends JFrame {
     JPanel contentPane;
     JLabel labBalon;
     JLabel labOdrazka1;
-    JLabel labOdrazka2;
     JKeyboard klavesnice;
     JLabel labKonecHry;
+    JLabel labOdrazka2;
     Random random1;
     JTimer casovac;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
     Integer posunX;
     Integer posunY;
-    Integer AX;
-    Integer AY;
-    Integer BX;
-    Integer BY;
-    Integer CX;
-    Integer CY;
-    Integer DX;
-    Integer DY;
-    Integer xBalon;
-    Integer yBalon;
-    Integer x2Balon;
-    Integer y2Balon;
-
-    private void konecHry() {
-        casovac.stop();
-        labKonecHry.setVisible(true);
-
-    }
 
     public HlavniOkno() {
         initComponents();
@@ -55,96 +37,15 @@ public class HlavniOkno extends JFrame {
     }
 
     private void priTiknitiCasovace(ActionEvent e) {
-
-        Point poziceBalon;
-        Integer balonSirka;
-        balonSirka = labBalon.getWidth();
-        Integer balonVyska;
-        balonVyska = labBalon.getHeight();
-        poziceBalon = labBalon.getLocation();
-        xBalon = poziceBalon.x;
-        yBalon = poziceBalon.y;
-        x2Balon = xBalon + balonSirka;
-        y2Balon = yBalon + balonVyska;
-
-        Point poziceOdrazka1;
-        poziceOdrazka1 = labOdrazka1.getLocation();
-        AX = poziceOdrazka1.x;
-        AY = poziceOdrazka1.y;
-        BX = AX + labOdrazka1.getWidth();
-        BY = BX + labOdrazka1.getHeight();
-        if (klavesnice.isKeyDown(KeyEvent.VK_W)){
-            if (AY>0){
-                AY = AY-5;
-            }
+        pohybujBalonem();
+        pohybujOdrazka1();
+        pohybujOdrazka2();
+        if (detekujKolizi(labBalon, labOdrazka1) == true) {
+            odrazOdrazku1 ();
         }
-        if (klavesnice.isKeyDown(KeyEvent.VK_S)){
-            if (BY < contentPane.getHeight()){
-                AY = AY +5;
-            }
-        }
-        if (BX >= this.xBalon && BY >= this.yBalon && BY <= y2Balon) {
-            posunX = 5;
-            posunY = -5;
-        }
-        if (BX >= this.xBalon && AY <= y2Balon && AY >= this.yBalon) {
-            posunX = 5;
-            posunY = 5;
-        }
-
-        poziceOdrazka1.x = AX;
-        poziceOdrazka1.y = AY;
-        labOdrazka1.setLocation(poziceOdrazka1);
-
-        Point poziceOdrazka2;
-        poziceOdrazka2 = labOdrazka2.getLocation();
-        CX = poziceOdrazka2.x;
-        CY = poziceOdrazka2.y;
-        DX = CX + labOdrazka2.getWidth();
-        DY = CY + labOdrazka2.getHeight();
-        if (klavesnice.isKeyDown(KeyEvent.VK_UP)){
-            if (CY >0){
-                CY = CY-5;
-            }
-        }
-        if (klavesnice.isKeyDown(KeyEvent.VK_DOWN)) {
-            if (DY < contentPane.getHeight()){
-                CY = CY +5;
-            }
-        }
-
-        if (CX <= x2Balon && CY <= y2Balon && CY >= yBalon) {
-            posunX = -5;
-            posunY = 5;
-        }
-        if (CX <= x2Balon && DY >= yBalon && DY <= y2Balon) {
-            posunX = -5;
-            posunY = -5;
-        }
-
-        poziceOdrazka2.x = CX;
-        poziceOdrazka2.y = CY;
-
-        labOdrazka2.setLocation(poziceOdrazka2);
-
-        if (yBalon < 0) {
-            posunY = 5;
-        }
-        if (yBalon + balonVyska > contentPane.getHeight()) {
-            posunY = -5;
-        }
-        xBalon = xBalon + posunX;
-        yBalon = yBalon + posunY;
-
-        poziceBalon.x = xBalon;
-        poziceBalon.y = yBalon;
-
-        labBalon.setLocation(poziceBalon);
-
-        if (xBalon <= 0 || xBalon + balonSirka >= contentPane.getWidth()) {
-            konecHry();
-        }
-
+        if (detekujKolizi(labBalon, labOdrazka2)== true){
+            odrazOdrazku2();       }
+        ukonciHru();
     }
 
     private void priStiskuKlavesy(KeyEvent e) {
@@ -155,15 +56,135 @@ public class HlavniOkno extends JFrame {
         }
     }
 
+
+    private boolean detekujKolizi(JLabel label1, JLabel label2) {
+        Integer ax = label1.getX();
+        Integer ay = label1.getY();
+        Integer bx = ax + label1.getWidth();
+        Integer by = ay + label1.getHeight();
+
+        Integer cx = label2.getX();
+        Integer cy = label2.getY();
+        Integer dx = cx + label2.getWidth();
+        Integer dy = cy + label2.getHeight();
+
+        if ((bx >= cx) && (ax <= dx) && (by >= cy) && (ay <= dy)) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    private void ukonciHru() {
+        Point poziceBalon;
+        poziceBalon = labBalon.getLocation();
+        Integer xBalon = poziceBalon.x;
+        Integer yBalon = poziceBalon.y;
+        if (xBalon <= 0 || xBalon + labBalon.getWidth() >= contentPane.getWidth()) {
+
+            casovac.stop();
+            labKonecHry.setVisible(true);
+        }
+    }
+
+    private void pohybujBalonem() {
+        Point poziceBalon = labBalon.getLocation();
+        Integer xBalon = poziceBalon.x;
+        Integer yBalon = poziceBalon.y;
+        Integer x2Balon = xBalon + labBalon.getWidth();
+        Integer y2Balon = yBalon + labBalon.getHeight();
+
+        if (xBalon < 0) {
+            posunX = 10;
+        }
+        if (x2Balon > contentPane.getWidth()) {
+            posunX = -10;
+        }
+        if (yBalon < 0) {
+            posunY = 10;
+        }
+        if (y2Balon > contentPane.getHeight()) {
+            posunY = -10;
+        }
+
+        xBalon = xBalon + posunX;
+        yBalon = yBalon + posunY;
+
+        poziceBalon.x = xBalon;
+        poziceBalon.y = yBalon;
+
+        labBalon.setLocation(poziceBalon);
+    }
+
+    private void pohybujOdrazka1() {
+        Point poziceOdrazka1 = labOdrazka1.getLocation();
+        Integer odrazkaX = poziceOdrazka1.x;
+        Integer odrazkaY = poziceOdrazka1.y;
+        Integer odrazkaY2 = odrazkaY + labOdrazka1.getHeight();
+        if (klavesnice.isKeyDown(KeyEvent.VK_W)) {
+            if (odrazkaY > 0) {
+                odrazkaY = odrazkaY - 5;
+            }
+        }
+        if (klavesnice.isKeyDown(KeyEvent.VK_S)) {
+            if (odrazkaY2 < contentPane.getHeight()) {
+                odrazkaY = odrazkaY + 5;
+            }
+        }
+        poziceOdrazka1.x = odrazkaX;
+        poziceOdrazka1.y = odrazkaY;
+        labOdrazka1.setLocation(poziceOdrazka1);
+    }
+
+    private void pohybujOdrazka2() {
+        Point poziceOdrazka2 = labOdrazka2.getLocation();
+        Integer odrazkaX = poziceOdrazka2.x;
+        Integer odrazkaY = poziceOdrazka2.y;
+        Integer odrazkaY2 = odrazkaY + labOdrazka2.getHeight();
+        if (klavesnice.isKeyDown(KeyEvent.VK_UP)) {
+            if (odrazkaY > 0) {
+                odrazkaY = odrazkaY - 10;
+            }
+        }
+        if (klavesnice.isKeyDown(KeyEvent.VK_DOWN)) {
+            if (odrazkaY2 < contentPane.getHeight()) {
+                odrazkaY = odrazkaY + 10;
+            }
+        }
+
+        poziceOdrazka2.x = odrazkaX;
+        poziceOdrazka2.y = odrazkaY;
+
+        labOdrazka2.setLocation(poziceOdrazka2);
+    }
+    private void odrazOdrazku1(){
+        Point poziceBalonu = labBalon.getLocation();
+        Integer balonX = poziceBalonu.x;
+        Integer balonY = poziceBalonu.y;
+        posunX = 10;
+        balonX = balonX + posunX;
+        labBalon.setLocation(poziceBalonu);
+    }
+    private void odrazOdrazku2 (){
+        Point poziceBalonu = labBalon.getLocation();
+        Integer balonX = poziceBalonu.x;
+        Integer balonY = poziceBalonu.y;
+        posunX = - 10;
+        balonX = balonX + posunX;
+
+        labBalon.setLocation(poziceBalonu);
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         // Generated using JFormDesigner non-commercial license
         contentPane = new JPanel();
         labBalon = new JLabel();
         labOdrazka1 = new JLabel();
-        labOdrazka2 = new JLabel();
         klavesnice = new JKeyboard();
         labKonecHry = new JLabel();
+        labOdrazka2 = new JLabel();
         random1 = new Random();
         casovac = new JTimer();
 
@@ -197,13 +218,7 @@ public class HlavniOkno extends JFrame {
             labOdrazka1.setBackground(new Color(0, 102, 204));
             labOdrazka1.setOpaque(true);
             contentPane.add(labOdrazka1);
-            labOdrazka1.setBounds(0, 85, 15, 185);
-
-            //---- labOdrazka2 ----
-            labOdrazka2.setBackground(new Color(0, 102, 204));
-            labOdrazka2.setOpaque(true);
-            contentPane.add(labOdrazka2);
-            labOdrazka2.setBounds(790, 65, 15, 185);
+            labOdrazka1.setBounds(15, 85, 25, 185);
 
             //---- klavesnice ----
             klavesnice.addKeyListener(new KeyAdapter() {
@@ -220,6 +235,12 @@ public class HlavniOkno extends JFrame {
             labKonecHry.setVisible(false);
             contentPane.add(labKonecHry);
             labKonecHry.setBounds(new Rectangle(new Point(290, 315), labKonecHry.getPreferredSize()));
+
+            //---- labOdrazka2 ----
+            labOdrazka2.setBackground(new Color(0, 102, 204));
+            labOdrazka2.setOpaque(true);
+            contentPane.add(labOdrazka2);
+            labOdrazka2.setBounds(770, 200, 25, 185);
 
             { // compute preferred size
                 Dimension preferredSize = new Dimension();
