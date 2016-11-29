@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
+import javax.swing.plaf.*;
 import net.sevecek.util.swing.*;
 
 public class HlavniOkno extends JFrame {
@@ -16,13 +17,15 @@ public class HlavniOkno extends JFrame {
     JKeyboard klavesnice;
     JLabel labKonecHry;
     JLabel labOdrazka2;
-    JLabel labPocitadlo1;
-    JLabel labPocitadlo2;
+    JLabel labPocitadlo;
     Random random1;
     JTimer casovac;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
     Integer posunX;
     Integer posunY;
+    Integer pocitadlo1;
+    Integer pocitadlo2;
+
 
     public HlavniOkno() {
         initComponents();
@@ -32,6 +35,10 @@ public class HlavniOkno extends JFrame {
         casovac.start();
         posunX = -5;
         posunY = -5;
+        pocitadlo1 = 0;
+        pocitadlo2 = 0;
+        labPocitadlo.setText(pocitadlo1 + " : "+ pocitadlo2);
+
     }
 
     private void priZavreniOkna(WindowEvent e) {
@@ -82,11 +89,7 @@ public class HlavniOkno extends JFrame {
     }
 
     private void ukonciHru() {
-        String skore1 = labPocitadlo1.getText();
-        Integer pocitadlo1 = new Integer(skore1);
 
-        String skore2 = labPocitadlo2.getText();
-        Integer pocitadlo2 = new Integer(skore2);
         if (pocitadlo1 == 10 || pocitadlo2 == 10) {
 
             casovac.stop();
@@ -190,15 +193,16 @@ public class HlavniOkno extends JFrame {
         Integer xBalon = poziceBalon.x;
         Integer yBalon = poziceBalon.y;
         if (xBalon <= 0) {
-            spocitejSkore1();
+            spocitejSkore2();
         }
     }
 
     private void spocitejSkore1() {
-        String skore1 = labPocitadlo1.getText();
-        Integer pocitadlo1 = new Integer(skore1);
-        pocitadlo1 = pocitadlo1 + 1;
-        labPocitadlo1.setText(pocitadlo1.toString());
+         pocitadlo1 = pocitadlo1 + 1;
+        System.out.println(pocitadlo1 + " : " + pocitadlo2);
+        labPocitadlo.setText(pocitadlo1 + " : "+ pocitadlo2);
+
+
 
     }
 
@@ -208,28 +212,23 @@ public class HlavniOkno extends JFrame {
         Integer xBalon = poziceBalon.x;
         Integer yBalon = poziceBalon.y;
         if (xBalon + labBalon.getWidth() >= contentPane.getWidth()) {
-            spocitejSkore2();
+            spocitejSkore1();
         }
     }
 
     private void spocitejSkore2() {
-        String skore2 = labPocitadlo2.getText();
-        Integer pocitadlo2 = new Integer(skore2);
         pocitadlo2 = pocitadlo2 + 1;
-        labPocitadlo2.setText(pocitadlo2.toString());
+        System.out.println(pocitadlo1 + " : " + pocitadlo2);
+        labPocitadlo.setText(pocitadlo1 + " : "+ pocitadlo2);
+
+
 
     }
 
     private void vynulujSkore() {
-        String skore1 = labPocitadlo1.getText();
-        Integer pocitadlo1 = new Integer(skore1);
         pocitadlo1 = 0;
-        labPocitadlo1.setText(pocitadlo1.toString());
-
-        String skore2 = labPocitadlo2.getText();
-        Integer pocitadlo2 = new Integer(skore2);
         pocitadlo2 = 0;
-        labPocitadlo2.setText(pocitadlo2.toString());
+        labPocitadlo.setText(pocitadlo1 + " : " + pocitadlo2);
     }
 
     private void initComponents() {
@@ -241,8 +240,7 @@ public class HlavniOkno extends JFrame {
         klavesnice = new JKeyboard();
         labKonecHry = new JLabel();
         labOdrazka2 = new JLabel();
-        labPocitadlo1 = new JLabel();
-        labPocitadlo2 = new JLabel();
+        labPocitadlo = new JLabel();
         random1 = new Random();
         casovac = new JTimer();
 
@@ -254,14 +252,13 @@ public class HlavniOkno extends JFrame {
             public void windowClosed(WindowEvent e) {
                 priZavreniOkna(e);
             }
-
             @Override
             public void windowOpened(WindowEvent e) {
                 priOtevreniOkna(e);
             }
         });
         Container contentPane2 = getContentPane();
-        contentPane2.setLayout(new BorderLayout());
+        contentPane2.setLayout(null);
 
         //======== contentPane ========
         {
@@ -301,21 +298,15 @@ public class HlavniOkno extends JFrame {
             contentPane.add(labOdrazka2);
             labOdrazka2.setBounds(770, 200, 25, 185);
 
-            //---- labPocitadlo1 ----
-            labPocitadlo1.setText("0");
-            labPocitadlo1.setFont(new Font("HelveticaNeue-Regular", Font.BOLD, 20));
-            contentPane.add(labPocitadlo1);
-            labPocitadlo1.setBounds(195, 15, 40, 25);
-
-            //---- labPocitadlo2 ----
-            labPocitadlo2.setText("0");
-            labPocitadlo2.setFont(new Font("HelveticaNeue-Regular", Font.BOLD, 20));
-            contentPane.add(labPocitadlo2);
-            labPocitadlo2.setBounds(600, 15, 40, 30);
+            //---- labPocitadlo ----
+            labPocitadlo.setFont(new Font("HelveticaNeue-Regular", Font.BOLD, 30));
+            labPocitadlo.setBackground(new Color(153, 153, 255));
+            contentPane.add(labPocitadlo);
+            labPocitadlo.setBounds(355, 20, 135, 45);
 
             { // compute preferred size
                 Dimension preferredSize = new Dimension();
-                for (int i = 0; i < contentPane.getComponentCount(); i++) {
+                for(int i = 0; i < contentPane.getComponentCount(); i++) {
                     Rectangle bounds = contentPane.getComponent(i).getBounds();
                     preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
                     preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
@@ -327,7 +318,22 @@ public class HlavniOkno extends JFrame {
                 contentPane.setPreferredSize(preferredSize);
             }
         }
-        contentPane2.add(contentPane, BorderLayout.CENTER);
+        contentPane2.add(contentPane);
+        contentPane.setBounds(0, 0, 813, 510);
+
+        { // compute preferred size
+            Dimension preferredSize = new Dimension();
+            for(int i = 0; i < contentPane2.getComponentCount(); i++) {
+                Rectangle bounds = contentPane2.getComponent(i).getBounds();
+                preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
+                preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
+            }
+            Insets insets = contentPane2.getInsets();
+            preferredSize.width += insets.right;
+            preferredSize.height += insets.bottom;
+            contentPane2.setMinimumSize(preferredSize);
+            contentPane2.setPreferredSize(preferredSize);
+        }
         setSize(815, 535);
         setLocationRelativeTo(null);
 
