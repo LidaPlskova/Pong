@@ -224,6 +224,10 @@ public class HlavniOkno extends JFrame {
 
 
     }
+    private void dejMicekDoprostred (){
+        Point poziceBalon = labBalon.getLocation();
+
+    }
 
     private void vynulujSkore() {
         pocitadlo1 = 0;
